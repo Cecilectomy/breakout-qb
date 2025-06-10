@@ -11,6 +11,3 @@ mkdir -p build
 
 echo -n "Building... "
 ${DBOX_CMD} -conf bin/conf/dosbox.linux.conf -noconsole -exit -c "BIN\BUILD\DOS.BAT" 2>&1 >/dev/null && { echo "done"; } || { echo "failed"; echo "Press any key to continue..."; read -n 1 -s; exit 1; }
-
-# echo -n "Copying Assets... "
-# cp -rf "assets" "build/assets" 2>&1 >/dev/null && { echo "done"; } || { echo "failed"; echo "Press any key to continue..."; read -n 1 -s; exit 1; }

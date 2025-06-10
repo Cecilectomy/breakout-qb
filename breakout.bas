@@ -1,7 +1,7 @@
-'$INCLUDE:'inc\multikey.bi'
+'$INCLUDE:'inc\multikey\multikey.bi'
 
-DECLARE SUB newlevel ()
-DECLARE SUB resetgame ()
+DECLARE SUB NEWLEVEL ()
+DECLARE SUB RESETGAME ()
 
 DIM SHARED bricks(15, 5)
 
@@ -12,7 +12,7 @@ DIM SHARED bricksremain%: bricksremain% = 1
 
 DIM SHARED padx%: padx% = 150
 DIM SHARED pady%: pady% = 180
-DIM SHARED padnewx#: padnewx# = padx%
+DIM SHARED padnewx%: padnewx% = padx%
 
 DIM SHARED ballx%: ballx% = rand * 320
 DIM SHARED bally%: bally% = 75
@@ -22,27 +22,26 @@ DIM SHARED hball%: hball% = 2
 RANDOMIZE TIMER
 SCREEN 7, 0, 1, 0
 
-Z = MULTIKEY(-1)
+MULTIKEYSTART
 
-resetgame
+RESETGAME
 
-DO UNTIL MULTIKEY(1)
+DO UNTIL MULTIKEYPRESSED(1)
     _LIMIT(60)
-    _DISPLAY
 
+    PCOPY 1, 0
+    _DISPLAY
     CLS
 
-    IF MULTIKEY(75) THEN padnewx# = padnewx# - 5
-    IF MULTIKEY(77) THEN padnewx# = padnewx# + 5
+    IF MULTIKEYPRESSED(75) THEN padnewx% = padnewx% - 5
+    IF MULTIKEYPRESSED(77) THEN padnewx% = padnewx% + 5
 
-    IF MULTIKEY(57) AND lives% > 0 THEN playing% = 1
-    IF MULTIKEY(19) AND lives% = 0 THEN resetgame
+    IF MULTIKEYPRESSED(57) AND lives% > 0 THEN playing% = 1
+    IF MULTIKEYPRESSED(19) AND lives% = 0 THEN RESETGAME
 
-    IF bricksremain% <= 0 THEN
-        newlevel
-    END IF
+    IF bricksremain% <= 0 THEN NEWLEVEL
 
-    padx% = padx% + ((padnewx# - padx%) * 0.15)
+    padx% = padx% + ((padnewx% - padx%) * 0.15)
 
     IF ballx% <= 1 THEN hball% = 1
     IF bally% <= 1 THEN vball% = 1
@@ -121,15 +120,13 @@ DO UNTIL MULTIKEY(1)
 
     CIRCLE (ballx%, bally%), 3, 15
     PAINT (ballx%, bally%), 15
-
-    PCOPY 1, 0
 LOOP
 
-Z = MULTIKEY(-2)
+MULTIKEYSTOP
 
 SYSTEM
 
-SUB newlevel
+SUB NEWLEVEL
     FOR y = 1 TO 5
         FOR x = 1 TO 15
             bricks(x, y) = RND * 14 + 1
@@ -141,8 +138,8 @@ SUB newlevel
     bricksremain% = 1
 END SUB
 
-SUB resetgame
-    newlevel
+SUB RESETGAME
+    NEWLEVEL
     
     lives% = 3
     score% = 0

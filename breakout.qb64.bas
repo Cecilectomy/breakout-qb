@@ -6,4 +6,4 @@ $RESIZE:STRETCH
 _TITLE "Breakout"
 
 '$INCLUDE:'breakout.bas'
-'$INCLUDE:'inc/multikey.bas'
+'$INCLUDE:'inc/multikey/inp.bas'
